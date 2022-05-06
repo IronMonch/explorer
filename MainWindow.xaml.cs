@@ -39,10 +39,20 @@ namespace Dateien_Explorer
             string[] dirs2 = Directory.GetFiles(pfad);
 
             //bestehende suchergebnisse löschen um Wiederholungen zu vermeiden
-            for (int i = 0; i < dirs.Length; i++)
-            {
-                lb_DirectoryItems.Items.Remove(dirs[i]);
-            }
+
+            lb_DirectoryItems.Items.Clear();
+            //for (int i = 0; i < dirs.Length; i++)
+            //{
+            //    lb_DirectoryItems.Items.Remove(dirs[i]);
+            //}
+            //for (int i = 0; i < dirs2.Length; i++)
+            //{
+            //    lb_DirectoryItems.Items.Remove(dirs2[i]);
+            //}
+            //lb_DirectoryItems.Items.Remove("Ordner:");
+            //lb_DirectoryItems.Items.Remove("Dateien:");
+            //lb_DirectoryItems.Items.Remove("");
+
 
             //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
             lb_DirectoryItems.Items.Add("Ordner:");
@@ -56,7 +66,6 @@ namespace Dateien_Explorer
             {
                 lb_DirectoryItems.Items.Add(dir2);
             }
-
         }
     }
 }
