@@ -36,11 +36,27 @@ namespace Dateien_Explorer
         {
             string pfad = pfadLeiste.Text;
             string[] dirs = Directory.GetDirectories(pfad);
-            //ausgabe.Text = "Anzahl der Ordner: " + dirs.Length;
+            string[] dirs2 = Directory.GetFiles(pfad);
+
+            //bestehende suchergebnisse löschen um Wiederholungen zu vermeiden
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                lb_DirectoryItems.Items.Remove(dirs[i]);
+            }
+
+            //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
+            lb_DirectoryItems.Items.Add("Ordner:");
             foreach (string dir in dirs)
             {
                 lb_DirectoryItems.Items.Add(dir);
             }
+            lb_DirectoryItems.Items.Add("");
+            lb_DirectoryItems.Items.Add("Dateien:");
+            foreach (string dir2 in dirs2)
+            {
+                lb_DirectoryItems.Items.Add(dir2);
+            }
+
         }
     }
 }
