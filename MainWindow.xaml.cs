@@ -38,20 +38,20 @@ namespace Dateien_Explorer
             string[] dirs = Directory.GetDirectories(pfad);
             string[] dirs2 = Directory.GetFiles(pfad);
 
-            //bestehende suchergebnisse löschen um Wiederholungen zu vermeiden
+            //bei jedem Löschvorgang schrumpft das Array um ein Element, weshalb nach dem ersten Löschen error mit 
+            //der Meldung "out of range" erscheint
+            //variante 1
+            int items = lb_DirectoryItems.Items.Count;
+            for (int i = 0; i < lb_DirectoryItems.Items.Count;)
+            {
+                lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
+            }
 
-            lb_DirectoryItems.Items.Clear();
-            //for (int i = 0; i < dirs.Length; i++)
+            //Variante2
+            //for (int i = lb_DirectoryItems.Items.Count - 1; i > -1 ; i--)
             //{
-            //    lb_DirectoryItems.Items.Remove(dirs[i]);
+            //    lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
             //}
-            //for (int i = 0; i < dirs2.Length; i++)
-            //{
-            //    lb_DirectoryItems.Items.Remove(dirs2[i]);
-            //}
-            //lb_DirectoryItems.Items.Remove("Ordner:");
-            //lb_DirectoryItems.Items.Remove("Dateien:");
-            //lb_DirectoryItems.Items.Remove("");
 
 
             //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
@@ -66,6 +66,9 @@ namespace Dateien_Explorer
             {
                 lb_DirectoryItems.Items.Add(dir2);
             }
+            
+            items = lb_DirectoryItems.Items.Count;
+
         }
     }
 }
