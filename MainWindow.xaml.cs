@@ -104,8 +104,21 @@ namespace Dateien_Explorer
             string pfad = pfadLeiste.Text;
             int stringLänge = pfad.Length;
             int löschPunkt = pfad.LastIndexOf("\\");
-            pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
-            zeigeInhalt();
+            if (stringLänge - löschPunkt == 1)
+            {
+                char[] lösch = {'\\' };
+                string pfad2 = pfad.TrimEnd(lösch);
+                pfadLeiste.Text = pfad2;
+                stringLänge = pfad2.Length;
+                löschPunkt = pfad2.LastIndexOf("\\");
+                pfadLeiste.Text = pfad2.Remove(löschPunkt, stringLänge - löschPunkt);
+                zeigeInhalt();
+            }
+            else
+            {
+                pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
+                zeigeInhalt();
+            }
         }
     }
 }
