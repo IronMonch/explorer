@@ -86,7 +86,14 @@ namespace Dateien_Explorer
 
         private void zurückBttn_Click(object sender, RoutedEventArgs e)
         {
-            //string pfad = TextBox.Text;
+            string pfad = pfadLeiste.Text.TrimEnd('\\');
+            int letzterSlash = pfad.LastIndexOf('\\');
+
+            pfadLeiste.Text = pfad.Remove(letzterSlash, pfad.Length - letzterSlash);
+            zeigeInhalt();
+
+
+            //string pfad = pfadLeiste.Text;
             //durchlaufe string rüchwärts;
             //solange (zeichen in pfad != "\")
             //    { 
@@ -101,24 +108,25 @@ namespace Dateien_Explorer
             //{
             //    füge in listbox item = Element;        
             //}
-            string pfad = pfadLeiste.Text;
-            int stringLänge = pfad.Length;
-            int löschPunkt = pfad.LastIndexOf("\\");
-            if (stringLänge - löschPunkt == 1)
-            {
-                char[] lösch = {'\\' };
-                string pfad2 = pfad.TrimEnd(lösch);
-                pfadLeiste.Text = pfad2;
-                stringLänge = pfad2.Length;
-                löschPunkt = pfad2.LastIndexOf("\\");
-                pfadLeiste.Text = pfad2.Remove(löschPunkt, stringLänge - löschPunkt);
-                zeigeInhalt();
-            }
-            else
-            {
-                pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
-                zeigeInhalt();
-            }
+            //string pfad = pfadLeiste.Text;
+            //int stringLänge;
+            //int löschPunkt;
+            //if (pfad.Substring(pfad.Length - 1) == "\\")
+            //{
+            //char trennzeichen = '\\';
+            //pfad = pfad.TrimEnd('\\');
+            //pfadLeiste.Text = pfad;
+
+            //int stringLänge = pfad.Length;
+
+            //int löschPunkt = pfad.LastIndexOf(trennzeichen);
+            //pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
+            //}
+            //else
+            //{
+            //    pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
+            //    zeigeInhalt();
+            //}
         }
     }
 }
