@@ -8,4 +8,12 @@
 	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="ordner.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ordner.png" />
+  </ItemGroup>
+
 </Project>

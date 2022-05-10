@@ -19,11 +19,14 @@
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="zurückBttn" Content="&lt;&lt;" Margin="2" Padding="0, 5, 0, 5"/>
-            <Button x:Name="vorBttn" Content=">>" Grid.Column="1" Margin="2" Padding="0, 5, 0, 5"/>
-            <Label Content="     Pfad:" Grid.Column="2" Grid.ColumnSpan="2" Margin="2" Padding="17, 8, 5, 5"/>
-            <TextBox x:Name="pfadLeiste" Grid.Column="3" TextWrapping="Wrap" Margin="2" Text="C:\Users\mohamed\Desktop\Praktikum"/>
+            <Button x:Name="zurückBttn" Content="&lt;&lt;" Margin="2" Padding="0, 4" Click="zurückBttn_Click"/>
+            <TextBox x:Name="pfadLeiste" Grid.Column="2" Grid.ColumnSpan="2" TextWrapping="Wrap" Padding="5" Margin="2" Text="C:\Users\mohamed\Desktop\Praktikum" FontSize="14"/>
             <Button x:Name="öffnenBttn" Content="Öffnen" Grid.Column="4" Margin="2" Click="öffnenBttn_Click"/>
+            <Button x:Name="ordner" Grid.Column="1" Margin="2" Click="ordner_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="C:/users/mohamed/Downloads/ordner.png" Width="25"></Image>
+                </StackPanel>
+            </Button>
         </Grid>
         <ListBox Grid.Row="1" Name="lb_DirectoryItems" Margin="5">
 

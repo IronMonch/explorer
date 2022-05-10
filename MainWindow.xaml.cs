@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Win32;
+//using Microsoft.Win32;
 using System.Runtime;
 using System.Drawing;
 using System.Windows.Forms;
@@ -32,7 +32,8 @@ namespace Dateien_Explorer
             InitializeComponent();
         }
 
-        private void öffnenBttn_Click(object sender, RoutedEventArgs e)
+
+        private void zeigeInhalt()
         {
             string pfad = pfadLeiste.Text;
             string[] dirs = Directory.GetDirectories(pfad);
@@ -66,9 +67,45 @@ namespace Dateien_Explorer
             {
                 lb_DirectoryItems.Items.Add(dir2);
             }
-            
-            items = lb_DirectoryItems.Items.Count;
 
+            items = lb_DirectoryItems.Items.Count;
+        }
+
+        private void öffnenBttn_Click(object sender, RoutedEventArgs e)
+        {
+            zeigeInhalt();
+
+        }
+
+
+        private void ordner_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog öffneDialog = new OpenFileDialog();
+            öffneDialog.ShowDialog();
+        }
+
+        private void zurückBttn_Click(object sender, RoutedEventArgs e)
+        {
+            //string pfad = TextBox.Text;
+            //durchlaufe string rüchwärts;
+            //solange (zeichen in pfad != "\")
+            //    { 
+            //        lösche zeichen;
+            //    }
+            //TextBox.Text = pfad;
+
+            //rufe methode öffneBttn auf
+            // 
+            //hole Ordner und Dateien aus pfad und gebe sie aus als arrayDateien und arrayOrdner;
+            //für (jedes Elemnt in arrayDateien/arrayOrdner)
+            //{
+            //    füge in listbox item = Element;        
+            //}
+            string pfad = pfadLeiste.Text;
+            int stringLänge = pfad.Length;
+            int löschPunkt = pfad.LastIndexOf("\\");
+            pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
+            zeigeInhalt();
         }
     }
 }
