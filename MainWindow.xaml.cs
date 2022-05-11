@@ -89,8 +89,11 @@ namespace Dateien_Explorer
             string pfad = pfadLeiste.Text.TrimEnd('\\');
             int letzterSlash = pfad.LastIndexOf('\\');
 
-            pfadLeiste.Text = pfad.Remove(letzterSlash, pfad.Length - letzterSlash);
-            zeigeInhalt();
+            if (letzterSlash >= 4)
+            {
+                pfadLeiste.Text = pfad.Remove(letzterSlash, pfad.Length - letzterSlash);
+                zeigeInhalt();
+            }
 
 
             //string pfad = pfadLeiste.Text;
