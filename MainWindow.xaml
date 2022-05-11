@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="zurückBttn" Content="&lt;&lt;" Margin="2" Padding="0, 4" Click="zurückBttn_Click"/>
-            <TextBox x:Name="pfadLeiste" Grid.Column="2" Grid.ColumnSpan="2" TextWrapping="Wrap" Padding="5" Margin="2" Text="C:\Users\mohamed\Desktop\Praktikum" FontSize="14"/>
+            <TextBox x:Name="pfadLeiste" Grid.Column="2" Grid.ColumnSpan="2" TextWrapping="Wrap" Padding="5" Margin="2" Text="C:\Users\mohamed\Desktop" FontSize="14"/>
             <Button x:Name="öffnenBttn" Content="Öffnen" Grid.Column="4" Margin="2" Click="öffnenBttn_Click"/>
             <Button x:Name="ordner" Grid.Column="1" Margin="2" Click="ordner_Click">
                 <StackPanel Orientation="Horizontal">

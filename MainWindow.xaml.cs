@@ -59,13 +59,14 @@ namespace Dateien_Explorer
             lb_DirectoryItems.Items.Add("Ordner:");
             foreach (string dir in dirs)
             {
-                lb_DirectoryItems.Items.Add(dir);
+
+                lb_DirectoryItems.Items.Add(dir.Remove(0, dir.LastIndexOf('\\') + 1));
             }
             lb_DirectoryItems.Items.Add("");
             lb_DirectoryItems.Items.Add("Dateien:");
             foreach (string dir2 in dirs2)
             {
-                lb_DirectoryItems.Items.Add(dir2);
+                lb_DirectoryItems.Items.Add(dir2.Remove(0, dir2.LastIndexOf('\\') + 1));
             }
 
             items = lb_DirectoryItems.Items.Count;
@@ -134,25 +135,51 @@ namespace Dateien_Explorer
 
         private void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
         {
+            string pfad = pfadLeiste.Text;
             string[] dirs = Directory.GetDirectories(pfadLeiste.Text);
             string[] dirs2 = Directory.GetFiles(pfadLeiste.Text);
             string itemToOpen = lb_DirectoryItems.SelectedItem.ToString();
-            Uri filePath = new Uri(itemToOpen);
             //öffne Ordner
-            if (Array.Exists(dirs, element => element == itemToOpen))
+            //if (Array.Exists(dirs, element => element == pfad + '\\' + itemToOpen))
+            //{
+            //    pfadLeiste.Text = pfad + '\\' + itemToOpen;
+            //    zeigeInhalt();
+            //}
+            ////öffne Datei
+            //if (Array.Exists(dirs2, element => element == pfad + '\\' + itemToOpen))
+            //{
+            //    try
+            //    {
+            //        using (Process myProcess = new Process())
+            //        {
+            //            myProcess.StartInfo.UseShellExecute = true;
+            //            myProcess.StartInfo.FileName = pfad + '\\' + itemToOpen;
+            //            myProcess.StartInfo.CreateNoWindow = true;
+            //            myProcess.Start();
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        pfadLeiste.Text = itemToOpen;
+            //    }
+            //}
+
+            FileAttributes attr = File.GetAttributes(@pfad + '\\' + itemToOpen);
+
+            if (attr.HasFlag(FileAttributes.Directory))
             {
-                pfadLeiste.Text = itemToOpen;
+                pfadLeiste.Text = pfad + '\\' + itemToOpen;
                 zeigeInhalt();
             }
-            //öffne Datei
-            if(Array.Exists(dirs2, element => element == itemToOpen))
+
+            else
             {
                 try
                 {
                     using (Process myProcess = new Process())
                     {
                         myProcess.StartInfo.UseShellExecute = true;
-                        myProcess.StartInfo.FileName = itemToOpen;
+                        myProcess.StartInfo.FileName = pfad + '\\' + itemToOpen;
                         myProcess.StartInfo.CreateNoWindow = true;
                         myProcess.Start();
                     }
@@ -160,7 +187,8 @@ namespace Dateien_Explorer
                 catch
                 {
                     pfadLeiste.Text = itemToOpen;
-                } 
+                }
+
             }
 
         }
