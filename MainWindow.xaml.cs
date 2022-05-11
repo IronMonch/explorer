@@ -131,5 +131,39 @@ namespace Dateien_Explorer
             //    zeigeInhalt();
             //}
         }
+
+        private void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
+        {
+            string[] dirs = Directory.GetDirectories(pfadLeiste.Text);
+            string[] dirs2 = Directory.GetFiles(pfadLeiste.Text);
+            string itemToOpen = lb_DirectoryItems.SelectedItem.ToString();
+            Uri filePath = new Uri(itemToOpen);
+            //öffne Ordner
+            if (Array.Exists(dirs, element => element == itemToOpen))
+            {
+                pfadLeiste.Text = itemToOpen;
+                zeigeInhalt();
+            }
+            //öffne Datei
+            if(Array.Exists(dirs2, element => element == itemToOpen))
+            {
+                try
+                {
+                    using (Process myProcess = new Process())
+                    {
+                        myProcess.StartInfo.UseShellExecute = true;
+                        myProcess.StartInfo.FileName = itemToOpen;
+                        myProcess.StartInfo.CreateNoWindow = true;
+                        myProcess.Start();
+                    }
+                }
+                catch
+                {
+                    pfadLeiste.Text = itemToOpen;
+                } 
+            }
+
+        }
+
     }
 }
