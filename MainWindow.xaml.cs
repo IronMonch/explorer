@@ -27,6 +27,7 @@ namespace Dateien_Explorer
     /// </summary>
     public partial class MainWindow : Window
     {
+        string aktuellerPfad;
         public MainWindow()
         {
             InitializeComponent();
@@ -70,6 +71,7 @@ namespace Dateien_Explorer
             }
 
             items = lb_DirectoryItems.Items.Count;
+            aktuellerPfad = pfadLeiste.Text;
         }
 
         private void öffnenBttn_Click(object sender, RoutedEventArgs e)
@@ -90,7 +92,7 @@ namespace Dateien_Explorer
             string pfad = pfadLeiste.Text.TrimEnd('\\');
             int letzterSlash = pfad.LastIndexOf('\\');
 
-            if (letzterSlash >= 4)
+            if (letzterSlash >= 2)
             {
                 pfadLeiste.Text = pfad.Remove(letzterSlash, pfad.Length - letzterSlash);
                 zeigeInhalt();
@@ -135,63 +137,34 @@ namespace Dateien_Explorer
 
         private void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
         {
-            string pfad = pfadLeiste.Text;
-            string[] dirs = Directory.GetDirectories(pfadLeiste.Text);
-            string[] dirs2 = Directory.GetFiles(pfadLeiste.Text);
             string itemToOpen = lb_DirectoryItems.SelectedItem.ToString();
-            //öffne Ordner
-            //if (Array.Exists(dirs, element => element == pfad + '\\' + itemToOpen))
-            //{
-            //    pfadLeiste.Text = pfad + '\\' + itemToOpen;
-            //    zeigeInhalt();
-            //}
-            ////öffne Datei
-            //if (Array.Exists(dirs2, element => element == pfad + '\\' + itemToOpen))
-            //{
-            //    try
-            //    {
-            //        using (Process myProcess = new Process())
-            //        {
-            //            myProcess.StartInfo.UseShellExecute = true;
-            //            myProcess.StartInfo.FileName = pfad + '\\' + itemToOpen;
-            //            myProcess.StartInfo.CreateNoWindow = true;
-            //            myProcess.Start();
-            //        }
-            //    }
-            //    catch
-            //    {
-            //        pfadLeiste.Text = itemToOpen;
-            //    }
-            //}
 
-            FileAttributes attr = File.GetAttributes(@pfad + '\\' + itemToOpen);
+            FileAttributes attr = File.GetAttributes(@aktuellerPfad + '\\' + itemToOpen);
 
-            if (attr.HasFlag(FileAttributes.Directory))
-            {
-                pfadLeiste.Text = pfad + '\\' + itemToOpen;
-                zeigeInhalt();
-            }
-
-            else
-            {
-                try
+                if (attr.HasFlag(FileAttributes.Directory))
                 {
-                    using (Process myProcess = new Process())
+                    pfadLeiste.Text = aktuellerPfad + '\\' + itemToOpen;
+                    zeigeInhalt();
+                }
+
+                else
+                {
+                    try
                     {
-                        myProcess.StartInfo.UseShellExecute = true;
-                        myProcess.StartInfo.FileName = pfad + '\\' + itemToOpen;
-                        myProcess.StartInfo.CreateNoWindow = true;
-                        myProcess.Start();
+                        using (Process myProcess = new Process())
+                        {
+                            myProcess.StartInfo.UseShellExecute = true;
+                            myProcess.StartInfo.FileName = aktuellerPfad + '\\' + itemToOpen;
+                            myProcess.StartInfo.CreateNoWindow = true;
+                            myProcess.Start();
+                        }
                     }
+                    catch
+                    {
+                        pfadLeiste.Text = itemToOpen;
+                    }
+
                 }
-                catch
-                {
-                    pfadLeiste.Text = itemToOpen;
-                }
-
-            }
-
-        }
-
+        }    
     }
 }

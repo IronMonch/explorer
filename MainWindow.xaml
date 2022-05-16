@@ -38,7 +38,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <ListBox Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick">
+        <ListBox Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick" >
 
         </ListBox>
 
