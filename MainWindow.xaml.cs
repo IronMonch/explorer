@@ -90,7 +90,7 @@ namespace Dateien_Explorer
         private void zurückBttn_Click(object sender, RoutedEventArgs e)
         {
             string pfad = pfadLeiste.Text.TrimEnd('\\');
-            int letzterSlash = pfad.LastIndexOf('\\');
+            int letzterSlash = (pfad.LastIndexOf('\\')) + 1;
 
             if (letzterSlash >= 2)
             {
@@ -139,11 +139,11 @@ namespace Dateien_Explorer
         {
             string itemToOpen = lb_DirectoryItems.SelectedItem.ToString();
 
-            FileAttributes attr = File.GetAttributes(@aktuellerPfad + '\\' + itemToOpen);
+            FileAttributes attr = File.GetAttributes(@aktuellerPfad + itemToOpen);
 
                 if (attr.HasFlag(FileAttributes.Directory))
                 {
-                    pfadLeiste.Text = aktuellerPfad + '\\' + itemToOpen;
+                    pfadLeiste.Text = aktuellerPfad + itemToOpen +'\\';
                     zeigeInhalt();
                 }
 
@@ -154,7 +154,7 @@ namespace Dateien_Explorer
                         using (Process myProcess = new Process())
                         {
                             myProcess.StartInfo.UseShellExecute = true;
-                            myProcess.StartInfo.FileName = aktuellerPfad + '\\' + itemToOpen;
+                            myProcess.StartInfo.FileName = aktuellerPfad + itemToOpen;
                             myProcess.StartInfo.CreateNoWindow = true;
                             myProcess.Start();
                         }
