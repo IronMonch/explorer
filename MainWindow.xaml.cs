@@ -19,7 +19,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections;
-
+using Image = System.Windows.Controls.Image;
+using System.Windows.Forms;
 namespace Dateien_Explorer
 {
     /// <summary>
@@ -28,6 +29,7 @@ namespace Dateien_Explorer
     public partial class MainWindow : Window
     {
         string aktuellerPfad;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,12 +43,13 @@ namespace Dateien_Explorer
             string[] dirs2 = Directory.GetFiles(pfad);
 
             //bei jedem Löschvorgang schrumpft das Array um ein Element, weshalb nach dem ersten Löschen error mit 
-            //der Meldung "out of range" erscheint
+            //der Meldung "out of range" erscheint. Deshalb kein i++.
             //variante 1
             int items = lb_DirectoryItems.Items.Count;
             for (int i = 0; i < lb_DirectoryItems.Items.Count;)
             {
                 lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
+                
             }
 
             //Variante2
@@ -55,14 +58,24 @@ namespace Dateien_Explorer
             //    lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
             //}
 
-
             //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
             lb_DirectoryItems.Items.Add("Ordner:");
             foreach (string dir in dirs)
             {
+                //Image icon = new Image();
+                //BitmapImage bi = new BitmapImage();
+                //bi.BeginInit();
+                //bi.UriSource = new Uri(@"c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\leerer-ordner.png", UriKind.RelativeOrAbsolute);
+                //bi.EndInit();
+                //icon.Source = bi;
+                //icon.Width = 15;
 
+                string ordnerName = dir.Remove(0, dir.LastIndexOf('\\') + 1);
+                //Image "c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\leerer-ordner.png"
                 lb_DirectoryItems.Items.Add(dir.Remove(0, dir.LastIndexOf('\\') + 1));
+                //lb_DirectoryItems.Items.Add(new {icon, ordnerName});
             }
+
             lb_DirectoryItems.Items.Add("");
             lb_DirectoryItems.Items.Add("Dateien:");
             foreach (string dir2 in dirs2)
@@ -77,7 +90,6 @@ namespace Dateien_Explorer
         private void öffnenBttn_Click(object sender, RoutedEventArgs e)
         {
             zeigeInhalt();
-
         }
 
 
@@ -98,41 +110,6 @@ namespace Dateien_Explorer
                 zeigeInhalt();
             }
 
-
-            //string pfad = pfadLeiste.Text;
-            //durchlaufe string rüchwärts;
-            //solange (zeichen in pfad != "\")
-            //    { 
-            //        lösche zeichen;
-            //    }
-            //TextBox.Text = pfad;
-
-            //rufe methode öffneBttn auf
-            // 
-            //hole Ordner und Dateien aus pfad und gebe sie aus als arrayDateien und arrayOrdner;
-            //für (jedes Elemnt in arrayDateien/arrayOrdner)
-            //{
-            //    füge in listbox item = Element;        
-            //}
-            //string pfad = pfadLeiste.Text;
-            //int stringLänge;
-            //int löschPunkt;
-            //if (pfad.Substring(pfad.Length - 1) == "\\")
-            //{
-            //char trennzeichen = '\\';
-            //pfad = pfad.TrimEnd('\\');
-            //pfadLeiste.Text = pfad;
-
-            //int stringLänge = pfad.Length;
-
-            //int löschPunkt = pfad.LastIndexOf(trennzeichen);
-            //pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
-            //}
-            //else
-            //{
-            //    pfadLeiste.Text = pfad.Remove(löschPunkt, stringLänge - löschPunkt);
-            //    zeigeInhalt();
-            //}
         }
 
         private void lbDirectoryItems_Doubleclick(object sender, EventArgs e)

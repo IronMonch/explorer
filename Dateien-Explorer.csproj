@@ -16,4 +16,8 @@
     <Resource Include="ordner.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="icons\" />
+  </ItemGroup>
+
 </Project>
