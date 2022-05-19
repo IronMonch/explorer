@@ -29,37 +29,19 @@ namespace Dateien_Explorer
     public partial class MainWindow : Window
     {
         string aktuellerPfad;
+        int itemsCount;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //Image icon1 = new Image();
-            //BitmapImage bi = new BitmapImage();
-            //bi.BeginInit();
-            //bi.UriSource = new Uri(@"c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\leerer-ordner.png", UriKind.RelativeOrAbsolute);
-            //bi.EndInit();
-            //icon1.Source = bi;
-            //icon1.Width = 15;
-
-            //Image icon2 = new Image();
-            //BitmapImage bi2 = new BitmapImage();
-            //bi2.BeginInit();
-            //bi2.UriSource = new Uri(@"c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\datei.png", UriKind.RelativeOrAbsolute);
-            //bi2.EndInit();
-            //icon2.Source = bi2;
-            //icon2.Width = 15;
-
-
-            //List<dateiOrdner> items = new List<dateiOrdner>();
-            //items.Add(new dateiOrdner() { Typ = null, Name = null });
-            //lb_DirectoryItems.ItemsSource = items;
         }
 
         public class dateiOrdner
         {
-            public object Typ { get; set; }
+            public string Typ { get; set; }
+
             public string Name { get; set; }
+            
         }
 
         private void zeigeInhalt()
@@ -71,14 +53,10 @@ namespace Dateien_Explorer
             //bei jedem Löschvorgang schrumpft das Array um ein Element, weshalb nach dem ersten Löschen error mit 
             //der Meldung "out of range" erscheint. Deshalb kein i++.
             //variante 1
-            int lvItems = lb_DirectoryItems.Items.Count;
 
-
-
-            if (lb_DirectoryItems.Items.Count > 0)
+            while (lb_DirectoryItems.Items.Count > 0)
             {
-                for (int i = 0; i == lvItems;)
-                    lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
+                lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[0]);
             }
 
             //Variante2
@@ -90,24 +68,12 @@ namespace Dateien_Explorer
             //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
             //lb_DirectoryItems.Items.Add("Ordner:");
 
-            List<dateiOrdner> items = new List<dateiOrdner>();
             foreach (string dir in dirs)
             {
-                Image icon1 = new Image();
-                icon1.Width = 17;
-                icon1.Margin = new Thickness(5);
-
-
-                BitmapImage bi = new BitmapImage();
-                bi.BeginInit();
-                bi.UriSource = new Uri(@"c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\leerer-ordner.jpg", UriKind.RelativeOrAbsolute);
-                bi.EndInit();
-                icon1.Source = bi;
-                icon1.Width = 15;
-
                 string name = dir.Remove(0, dir.LastIndexOf('\\') + 1);
-                
-                lb_DirectoryItems.Items.Add(new dateiOrdner() { Typ = icon1, Name = name });
+                string typ = "Ordner";
+
+                lb_DirectoryItems.Items.Add(new dateiOrdner() {Typ = typ, Name = name});
                 //lb_DirectoryItems.ItemsSource = items;
 
 
@@ -119,27 +85,16 @@ namespace Dateien_Explorer
             //lb_DirectoryItems.Items.Add("Dateien:");
             foreach (string dir2 in dirs2)
             {
-                Image icon2 = new Image();
-                icon2.Width = 17;
-                icon2.Margin = new Thickness(5);
-
-                BitmapImage bi2 = new BitmapImage();
-                bi2.BeginInit();
-                bi2.UriSource = new Uri(@"c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\datei.jpg", UriKind.RelativeOrAbsolute);
-                bi2.EndInit();
-                icon2.Source = bi2;
-                icon2.Width = 15;
-
                 string name = dir2.Remove(0, dir2.LastIndexOf('\\') + 1);
+                string typ = "Datei";
 
-                lb_DirectoryItems.Items.Add(new dateiOrdner() { Typ = icon2, Name = name });
+                lb_DirectoryItems.Items.Add(new dateiOrdner() {Typ = typ, Name = name});
                 //lb_DirectoryItems.ItemsSource = items;
 
 
                 //lb_DirectoryItems.Items.Add(dir2.Remove(0, dir2.LastIndexOf('\\') + 1));
             }
 
-            lvItems = lb_DirectoryItems.Items.Count;
             aktuellerPfad = pfadLeiste.Text;
 
         }
@@ -171,36 +126,40 @@ namespace Dateien_Explorer
 
         void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
         {
+            //string selectedFile = lb_DirectoryItems.SelectedItem.ToString();
+            //string itemToOpen = selectedFile.Remove(0, selectedFile.LastIndexOf("+") + 1);
+            //pfadLeiste.Text = itemToOpen;
+            dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.Items[0];
+            
 
-            var collectionView = CollectionViewSource.GetDefaultView(Names);
-            string name = collectionView.CurrentItem.Name;
 
-            FileAttributes attr = File.GetAttributes(@aktuellerPfad + itemToOpen);
 
-            if (attr.HasFlag(FileAttributes.Directory))
-            {
-                pfadLeiste.Text = aktuellerPfad + itemToOpen + '\\';
-                zeigeInhalt();
-            }
+            //FileAttributes attr = File.GetAttributes(@aktuellerPfad + itemToOpen);
 
-            else
-            {
-                try
-                {
-                    using (Process myProcess = new Process())
-                    {
-                        myProcess.StartInfo.UseShellExecute = true;
-                        myProcess.StartInfo.FileName = aktuellerPfad + itemToOpen;
-                        myProcess.StartInfo.CreateNoWindow = true;
-                        myProcess.Start();
-                    }
-                }
-                catch
-                {
-                    pfadLeiste.Text = itemToOpen;
-                }
+            //if (attr.HasFlag(FileAttributes.Directory))
+            //{
+            //    pfadLeiste.Text = aktuellerPfad + itemToOpen + '\\';
+            //    zeigeInhalt();
+            //}
 
-            }
+            //else
+            //{
+            //    try
+            //    {
+            //        using (Process myProcess = new Process())
+            //        {
+            //            myProcess.StartInfo.UseShellExecute = true;
+            //            myProcess.StartInfo.FileName = aktuellerPfad + itemToOpen;
+            //            myProcess.StartInfo.CreateNoWindow = true;
+            //            myProcess.Start();
+            //        }
+            //    }
+            //    catch
+            //    {
+            //        pfadLeiste.Text = itemToOpen;
+            //    }
+
+            //}
         }
     }
 }

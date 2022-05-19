@@ -38,7 +38,7 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick" ItemsSource="{Binding Names }" IsSynchronizedWithCurrentItem="True" >
+        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick">
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -46,7 +46,7 @@
             </ListView.Resources>
             <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Typ" Width="260" DisplayMemberBinding="{Binding Typ}"/>
+                    <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
