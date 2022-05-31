@@ -20,6 +20,8 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Collections;
 using Image = System.Windows.Controls.Image;
+using System.Collections.ObjectModel;
+using Button = System.Windows.Controls.Button;
 
 namespace Dateien_Explorer
 {
@@ -29,7 +31,7 @@ namespace Dateien_Explorer
     public partial class MainWindow : Window
     {
         string aktuellerPfad;
-        int itemsCount;
+
 
         public MainWindow()
         {
@@ -38,10 +40,11 @@ namespace Dateien_Explorer
 
         public class dateiOrdner
         {
-            public string Typ { get; set; }
+            public string icon { get; set; }
+            public object Typ { get; set; }
 
             public string Name { get; set; }
-            
+
         }
 
         private void zeigeInhalt()
@@ -50,60 +53,38 @@ namespace Dateien_Explorer
             string[] dirs = Directory.GetDirectories(pfad);
             string[] dirs2 = Directory.GetFiles(pfad);
 
-            //bei jedem Löschvorgang schrumpft das Array um ein Element, weshalb nach dem ersten Löschen error mit 
-            //der Meldung "out of range" erscheint. Deshalb kein i++.
-            //variante 1
-
+            //Angezeigte Suchergebnisse, wenn vorhanden, löschen.
             while (lb_DirectoryItems.Items.Count > 0)
             {
                 lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[0]);
             }
 
-            //Variante2
-            //for (int i = lb_DirectoryItems.Items.Count - 1; i > -1; i--)
-            //{
-            //    lb_DirectoryItems.Items.Remove(lb_DirectoryItems.Items[i]);
-            //}
-
-            //jedes gefundene Element im suchergebnis-array wird als Item in der listbox ausgegeben
-            //lb_DirectoryItems.Items.Add("Ordner:");
-
             foreach (string dir in dirs)
             {
+
                 string name = dir.Remove(0, dir.LastIndexOf('\\') + 1);
                 string typ = "Ordner";
 
-                lb_DirectoryItems.Items.Add(new dateiOrdner() {Typ = typ, Name = name});
-                //lb_DirectoryItems.ItemsSource = items;
+                lb_DirectoryItems.Items.Add(new dateiOrdner() { Typ = typ , Name = name });
 
-
-                //Image "c:\\users\\mohamed\\desktop\\praktikum\\dateien-explorer\\icons\\leerer-ordner.png"
-                //lb_DirectoryItems.Items.Add(dir.Remove(0, dir.LastIndexOf('\\') + 1));
             }
 
-            //lb_DirectoryItems.Items.Add("");
-            //lb_DirectoryItems.Items.Add("Dateien:");
             foreach (string dir2 in dirs2)
             {
+
                 string name = dir2.Remove(0, dir2.LastIndexOf('\\') + 1);
                 string typ = "Datei";
 
-                lb_DirectoryItems.Items.Add(new dateiOrdner() {Typ = typ, Name = name});
-                //lb_DirectoryItems.ItemsSource = items;
-
-
-                //lb_DirectoryItems.Items.Add(dir2.Remove(0, dir2.LastIndexOf('\\') + 1));
+                lb_DirectoryItems.Items.Add(new dateiOrdner() { Typ = typ, Name = name });
             }
 
             aktuellerPfad = pfadLeiste.Text;
-
         }
 
         void öffnenBttn_Click(object sender, RoutedEventArgs e)
         {
             zeigeInhalt();
         }
-
 
         void ordner_Click(object sender, RoutedEventArgs e)
         {
@@ -126,40 +107,47 @@ namespace Dateien_Explorer
 
         void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
         {
-            //string selectedFile = lb_DirectoryItems.SelectedItem.ToString();
-            //string itemToOpen = selectedFile.Remove(0, selectedFile.LastIndexOf("+") + 1);
-            //pfadLeiste.Text = itemToOpen;
-            dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.Items[0];
-            
+            dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.SelectedItem;
 
+            if(lll != null)
+            {
+                FileAttributes attr = File.GetAttributes(@aktuellerPfad + lll.Name);
 
+                if (attr.HasFlag(FileAttributes.Directory))
+                {
+                    pfadLeiste.Text = aktuellerPfad + lll.Name + '\\';
+                    zeigeInhalt();
+                }
 
-            //FileAttributes attr = File.GetAttributes(@aktuellerPfad + itemToOpen);
+                else
+                {
+                    try
+                    {
+                        using (Process myProcess = new Process())
+                        {
+                            myProcess.StartInfo.UseShellExecute = true;
+                            myProcess.StartInfo.FileName = aktuellerPfad + lll.Name;
+                            myProcess.StartInfo.CreateNoWindow = true;
+                            myProcess.Start();
+                        }
+                    }
+                    catch
+                    {
+                        pfadLeiste.Text = lll.Name;
+                    }
+                }
+            }
+            else
+            {
+                pfadLeiste.Text = pfadLeiste.Text;
+            }
 
-            //if (attr.HasFlag(FileAttributes.Directory))
-            //{
-            //    pfadLeiste.Text = aktuellerPfad + itemToOpen + '\\';
-            //    zeigeInhalt();
-            //}
-
-            //else
-            //{
-            //    try
-            //    {
-            //        using (Process myProcess = new Process())
-            //        {
-            //            myProcess.StartInfo.UseShellExecute = true;
-            //            myProcess.StartInfo.FileName = aktuellerPfad + itemToOpen;
-            //            myProcess.StartInfo.CreateNoWindow = true;
-            //            myProcess.Start();
-            //        }
-            //    }
-            //    catch
-            //    {
-            //        pfadLeiste.Text = itemToOpen;
-            //    }
-
-            //}
         }
+        //private void lb_DirectoryItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    ContextMenu itemCxt = this.FindResource("itemContext") as ContextMenu;
+        //    itemCxt.PlacementTarget = sender as Button;
+        //    itemCxt.IsOpen = true;
+        //}
     }
 }

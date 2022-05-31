@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
+        <ContextMenu x:Key="itemContext" StaysOpen="True">
+            <MenuItem Header="Öffnen"/>
+            <MenuItem/>
+            <MenuItem Header="Löschen"/>
+        </ContextMenu>
         <Style TargetType="ListViewItem">
             <Setter Property="FontSize" Value="15"/>
             <Style.Triggers>
@@ -39,6 +44,7 @@
             </Button>
         </Grid>
         <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick">
+            <!--SelectionChanged="lb_DirectoryItems_SelectionChanged"-->
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -46,11 +52,18 @@
             </ListView.Resources>
             <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
+                    <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}">
+                        <!--<GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Image Source="{Binding Icon}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>-->
+                    </GridViewColumn>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
         </ListView>
     </Grid>
-    
 </Window>
