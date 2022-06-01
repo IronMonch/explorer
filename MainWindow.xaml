@@ -43,8 +43,13 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Doubleclick">
-            <!--SelectionChanged="lb_DirectoryItems_SelectionChanged"-->
+        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Open" >
+            <ListView.ContextMenu>
+                <ContextMenu Name="cxtMenü" >
+                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
+                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.Resources>
                 <Style TargetType="{x:Type GridViewColumnHeader}">
                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -52,15 +57,7 @@
             </ListView.Resources>
             <ListView.View >
                 <GridView>
-                    <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}">
-                        <!--<GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Image Source="{Binding Icon}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>-->
-                    </GridViewColumn>
+                    <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>

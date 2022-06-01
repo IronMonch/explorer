@@ -21,7 +21,8 @@ using System.Diagnostics;
 using System.Collections;
 using Image = System.Windows.Controls.Image;
 using System.Collections.ObjectModel;
-using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
+using ListViewItem = System.Windows.Controls.ListViewItem;
 
 namespace Dateien_Explorer
 {
@@ -40,12 +41,11 @@ namespace Dateien_Explorer
 
         public class dateiOrdner
         {
-            public string icon { get; set; }
             public object Typ { get; set; }
 
             public string Name { get; set; }
-
         }
+
 
         private void zeigeInhalt()
         {
@@ -77,7 +77,6 @@ namespace Dateien_Explorer
 
                 lb_DirectoryItems.Items.Add(new dateiOrdner() { Typ = typ, Name = name });
             }
-
             aktuellerPfad = pfadLeiste.Text;
         }
 
@@ -105,7 +104,7 @@ namespace Dateien_Explorer
 
         }
 
-        void lbDirectoryItems_Doubleclick(object sender, EventArgs e)
+        void lbDirectoryItems_Open(object sender, EventArgs e)
         {
             dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.SelectedItem;
 
@@ -143,11 +142,21 @@ namespace Dateien_Explorer
             }
 
         }
-        //private void lb_DirectoryItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    ContextMenu itemCxt = this.FindResource("itemContext") as ContextMenu;
-        //    itemCxt.PlacementTarget = sender as Button;
-        //    itemCxt.IsOpen = true;
-        //}
+
+        void lbDirectoryItems_Delete(object sender, EventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Willst du wirklich löschen?", "Achtung!", MessageBoxButton.YesNoCancel);
+            if (result != MessageBoxResult.Yes)
+            {
+                pfadLeiste.Text = pfadLeiste.Text;
+            }
+            else
+            {
+                lb_DirectoryItems.Items.Remove(lb_DirectoryItems.SelectedItem);
+            }
+
+        }
+
+
     }
 }
