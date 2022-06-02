@@ -6,21 +6,6 @@
         xmlns:local="clr-namespace:Dateien_Explorer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Window.Resources>
-        <ContextMenu x:Key="itemContext" StaysOpen="True">
-            <MenuItem Header="Öffnen"/>
-            <MenuItem/>
-            <MenuItem Header="Löschen"/>
-        </ContextMenu>
-        <Style TargetType="ListViewItem">
-            <Setter Property="FontSize" Value="15"/>
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="true">
-                    <Setter Property="FontWeight" Value="DemiBold"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="5*"/>
@@ -44,23 +29,49 @@
             </Button>
         </Grid>
         <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Open" >
-            <ListView.ContextMenu>
-                <ContextMenu Name="cxtMenü" >
-                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
-                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-            <ListView.Resources>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                </Style>
-            </ListView.Resources>
             <ListView.View >
                 <GridView>
                     <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
+
+            <!--<ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+                                <MenuItem Header="Öffnen" Click="bDirectoryItems_Open"/>
+                                <MenuItem Header="Löschen" Click="bDirectoryItems_Delete"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>-->
+
+
+
+            <ListView.ContextMenu>
+                <ContextMenu Name="cxtMenü" >
+                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
+                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+
+
+            <ListView.Resources>
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="FontSize" Value="15"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="FontWeight" Value="DemiBold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
         </ListView>
     </Grid>
 </Window>

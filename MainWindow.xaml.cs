@@ -108,7 +108,7 @@ namespace Dateien_Explorer
         {
             dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.SelectedItem;
 
-            if(lll != null)
+            if (lll != null)
             {
                 FileAttributes attr = File.GetAttributes(@aktuellerPfad + lll.Name);
 
@@ -140,23 +140,31 @@ namespace Dateien_Explorer
             {
                 pfadLeiste.Text = pfadLeiste.Text;
             }
-
         }
 
         void lbDirectoryItems_Delete(object sender, EventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Willst du wirklich löschen?", "Achtung!", MessageBoxButton.YesNoCancel);
+            dateiOrdner itemName = (dateiOrdner)lb_DirectoryItems.SelectedItem;
+
+            MessageBoxResult result = MessageBox.Show("Willst du wirklich " + "\"" + itemName.Name + "\"" + " löschen?", "Achtung!", MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
             {
-                pfadLeiste.Text = pfadLeiste.Text;
+                return;
+            }
+
+            string toDelete = aktuellerPfad + itemName.Name;
+            FileAttributes auswahl = File.GetAttributes(toDelete);
+
+            if (auswahl == FileAttributes.Directory)
+            {
+                Directory.Delete(toDelete);
             }
             else
             {
-                lb_DirectoryItems.Items.Remove(lb_DirectoryItems.SelectedItem);
+                File.Delete(toDelete);
             }
-
+            zeigeInhalt();
         }
-
 
     }
 }
