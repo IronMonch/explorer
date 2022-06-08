@@ -24,54 +24,71 @@
             <Button x:Name="öffnenBttn" Content="Öffnen" Grid.Column="4" Margin="2" Click="öffnenBttn_Click"/>
             <Button x:Name="ordner" Grid.Column="1" Margin="2" Click="ordner_Click">
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="C:/users/mohamed/Downloads/ordner.png" Width="25"></Image>
+                    <Image Source="C:/users/mohamed/Downloads/ordner.png" Width="25"/>
                 </StackPanel>
             </Button>
         </Grid>
+
         <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Open" >
-            <ListView.View >
+            <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
 
+
+
+            <ListView.Resources>
+                <ContextMenu x:Key="ContextMenu">
+                    <MenuItem Name="Open"
+                      Header="Öffnen"
+                      Click="lbDirectoryItems_Open"/>
+                    <MenuItem Name="Delete"
+                      Header="Löschen"
+                      Click="lbDirectoryItems_Delete"/>
+                </ContextMenu>
+                
+                <Style TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                </Style>
+            </ListView.Resources>
+            
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="ContextMenu" 
+                    Value="{StaticResource ContextMenu}"/>
+                    
+                    <Setter Property="FontSize" Value="15"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="DemiBold"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+
+            <!--<ListView.ContextMenu>
+                <ContextMenu Name="cxtMenü">
+                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
+                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
+                </ContextMenu>
+            </ListView.ContextMenu>-->
+
+
             <!--<ListView.ItemContainerStyle>
                 <Style TargetType="{x:Type ListViewItem}">
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="Öffnen" Click="bDirectoryItems_Open"/>
-                                <MenuItem Header="Löschen" Click="bDirectoryItems_Delete"/>
+                            <ContextMenu Name="cxtMenü">
+                                <MenuItem Header="Öffnen" Click="MenuItem_Click"/>
+                                <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>
                 </Style>
             </ListView.ItemContainerStyle>-->
-
-
-
-            <ListView.ContextMenu>
-                <ContextMenu Name="cxtMenü" >
-                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
-                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-
-
-            <ListView.Resources>
-                <Style TargetType="{x:Type GridViewColumnHeader}">
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                </Style>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="FontSize" Value="15"/>
-                    <Style.Triggers>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="FontWeight" Value="DemiBold"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ListView.Resources>
         </ListView>
     </Grid>
 </Window>

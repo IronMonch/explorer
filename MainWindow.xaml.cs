@@ -104,7 +104,7 @@ namespace Dateien_Explorer
 
         }
 
-        void lbDirectoryItems_Open(object sender, EventArgs e)
+        private void Öffnen()
         {
             dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.SelectedItem;
 
@@ -142,7 +142,12 @@ namespace Dateien_Explorer
             }
         }
 
-        void lbDirectoryItems_Delete(object sender, EventArgs e)
+        void lbDirectoryItems_Open(object sender, RoutedEventArgs e)
+        {
+            Öffnen();
+        }
+
+        void lbDirectoryItems_Delete(object sender, RoutedEventArgs e)
         {
             dateiOrdner itemName = (dateiOrdner)lb_DirectoryItems.SelectedItem;
 
@@ -166,5 +171,9 @@ namespace Dateien_Explorer
             zeigeInhalt();
         }
 
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Öffnen();
+        }
     }
 }
