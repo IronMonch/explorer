@@ -104,9 +104,14 @@ namespace Dateien_Explorer
 
         }
 
-        private void Öffnen()
+        void lbDirectoryItems_Open(object sender, RoutedEventArgs e)
         {
             dateiOrdner lll = (dateiOrdner)lb_DirectoryItems.SelectedItem;
+
+            if (lb_DirectoryItems.SelectedItem == null)
+            {
+                lb_DirectoryItems.SelectedItems.Clear();
+            }
 
             if (lll != null)
             {
@@ -142,11 +147,6 @@ namespace Dateien_Explorer
             }
         }
 
-        void lbDirectoryItems_Open(object sender, RoutedEventArgs e)
-        {
-            Öffnen();
-        }
-
         void lbDirectoryItems_Delete(object sender, RoutedEventArgs e)
         {
             dateiOrdner itemName = (dateiOrdner)lb_DirectoryItems.SelectedItem;
@@ -171,9 +171,14 @@ namespace Dateien_Explorer
             zeigeInhalt();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void lb_DirectoryItems_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Öffnen();
+            HitTestResult r = VisualTreeHelper.HitTest(this, e.GetPosition(this));
+
+            if(r.VisualHit.GetType() != typeof(ListViewItem))
+            {
+                lb_DirectoryItems.UnselectAll();
+            }
         }
     }
 }

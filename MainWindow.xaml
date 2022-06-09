@@ -29,15 +29,13 @@
             </Button>
         </Grid>
 
-        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Open" >
+        <ListView Grid.Row="1" Name="lb_DirectoryItems" Margin="5" MouseDoubleClick="lbDirectoryItems_Open" MouseDown="lb_DirectoryItems_MouseDown">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Typ" Width="75" DisplayMemberBinding="{Binding Typ}"/>
                     <GridViewColumn Header="Name" Width="700" DisplayMemberBinding="{Binding Name}"/>
                 </GridView>
             </ListView.View>
-
-
 
             <ListView.Resources>
                 <ContextMenu x:Key="ContextMenu">
@@ -67,28 +65,6 @@
                     </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
-
-
-            <!--<ListView.ContextMenu>
-                <ContextMenu Name="cxtMenü">
-                    <MenuItem Header="Öffnen" Click="lbDirectoryItems_Open"/>
-                    <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
-                </ContextMenu>
-            </ListView.ContextMenu>-->
-
-
-            <!--<ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="ContextMenu">
-                        <Setter.Value>
-                            <ContextMenu Name="cxtMenü">
-                                <MenuItem Header="Öffnen" Click="MenuItem_Click"/>
-                                <MenuItem Header="Löschen" Click="lbDirectoryItems_Delete"/>
-                            </ContextMenu>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>-->
         </ListView>
     </Grid>
 </Window>
