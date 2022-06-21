@@ -101,7 +101,6 @@ namespace Dateien_Explorer
                 pfadLeiste.Text = pfad.Remove(letzterSlash, pfad.Length - letzterSlash);
                 zeigeInhalt();
             }
-
         }
 
         void lbDirectoryItems_Open(object sender, RoutedEventArgs e)
